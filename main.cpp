@@ -163,7 +163,7 @@ int main() {
     std::vector<std::vector<std::string>>women = readFile("women.csv");
 
 
-    /* Sample data
+    /*Sample data
     std::vector<std::vector<int>>men = {  {3, 1, 2, 0},
                                           {1, 2, 0, 3},
                                           {3, 0, 2, 1},
@@ -177,6 +177,6 @@ int main() {
                                             {1, 3, 0, 2},
     };*/
 
-    //stableMarriage(women, men);
+    stableMarriage(women, men);
     return 0;
 }
