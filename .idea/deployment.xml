@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" remoteFilesAllowedToDisappearOnAutoupload="false">
+    <serverData>
+      <paths name="Docker Container (99eee3be-c23b-4db4-8238-7b4db8c5bbc9)">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/tmp/StableMatchingAlgo" local="$PROJECT_DIR$" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+  </component>
+</project>
