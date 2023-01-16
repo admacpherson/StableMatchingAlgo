@@ -23,12 +23,10 @@ Let W be the set of Women and M be the set of Men
 #include <fstream>
 #include <sstream>
 
-//Number of men/women
+//Number of men/women (initialized to dummy value of sample data & overwritten on file read)
 int N = 4;
 
-//Find next preferred option
-
-//Check if W prefers m or m1
+//Helper function: Check if W prefers m or m1
 bool wPrefersM1(std::vector<std::vector<int>>women, int w, int m1, int m2) {
     //Iterates through woman's preferences until one of the two is found first
     for (size_t i = 0; i < N; i++) {
@@ -42,9 +40,8 @@ bool wPrefersM1(std::vector<std::vector<int>>women, int w, int m1, int m2) {
     }
 }
 
-//Print stable matches
-//FIXME: Women input is actually for men and vice versa
-void stableMarriage(std::vector<std::vector<int>>men, std::vector<std::vector<int>>women) {   //FIXME: Change 4 to N
+//Print stable matches //FIXME: Women input is actually for men and vice versa
+void stableMarriage(std::vector<std::vector<int>>men, std::vector<std::vector<int>>women) {
     //List of women's partners (men)
     std::vector<int>wPartners;
 
@@ -56,6 +53,8 @@ void stableMarriage(std::vector<std::vector<int>>men, std::vector<std::vector<in
         freeMen.push_back(true);
         wPartners.push_back(-1);
     }
+
+    //Initialize number of free men to be all of them (N)
     int numFree = N;
 
     //While there is a free man
@@ -72,7 +71,6 @@ void stableMarriage(std::vector<std::vector<int>>men, std::vector<std::vector<in
         for (size_t i = 0; i < N && freeMen[m]; i++) {
             //Woman to compare
             int w = women[m][i];
-            //FIXME: Test Output std::cout << "Woman: " << w << "\tPartner: " << wPartners[w] << std::endl;
 
             //If free (not found in partners list) then (m,w) get engaged
             if (wPartners[w] == -1) {
@@ -102,34 +100,52 @@ void stableMarriage(std::vector<std::vector<int>>men, std::vector<std::vector<in
     }
 }
 
+std::vector<std::vector<std::string>> readFile(std::string fileName) {
+    //Reading files test
+    /*
+    std::ifstream testFile ("men.txt");
+    if (testFile.is_open())
+    {
+        std::cout << "Opened";
+    } else std::cout << "Unable to open file";
+     */
 
-int main() {
-/*
-    std::string fileName;
-    std::cout << "Enter the file name (include .csv)";
-    std::cin >> fileName;
+    //Local variables to hold preferences
+    std::vector<std::vector<std::string>>vec;
 
-    std::vector<std::vector<std::string>>men;
+    //Local variables to read files
     std::vector<std::string>row;
     std::string line, word;
-    std::fstream file (fileName, std::ios::in);
-    if (file.is_open()) {
-        while(std::getline(file, line)) {
-            row.clear();
-        }
+    std::fstream file;
 
-        std::stringstream str(line);
+    //Read first file
+    file.open (fileName, std::ios::in);
 
-        while(getline(str, word, ',')) {
-            row.push_back(word);
-            men.push_back(row);
-        }
-
-    } else {
-        std::cout << "Error opening file\n";
+    //Output if file does not open
+    if (!file.is_open()) {
+        std::cout << "Unable to open file";
     }
 
-    for(int i=0;i<men.size();i++)
+    //Prepare row
+    while(std::getline(file, line)) {
+        row.clear();
+    }
+
+    //Push CSV file into 2D array
+    std::stringstream str(line);
+    while(getline(str, word, ',')) {
+        row.push_back(word);
+        vec.push_back(row);
+    }
+
+    //Assign global variable value of how many men/women there are
+    N = vec.size();
+
+    //Close file
+    file.close();
+
+    //Print file (for testing)
+    /*for(int i=0;i<men.size();i++)
     {
         for(int j=0;j<men[i].size();j++)
         {
@@ -138,11 +154,16 @@ int main() {
         std::cout<<"\n";
     }*/
 
+}
 
-    //Men's preferences
+
+int main() {
+    //Preference variables
+    std::vector<std::vector<std::string>>men = readFile("men.csv");
+    std::vector<std::vector<std::string>>women = readFile("women.csv");
 
 
-    /* Sample data*/
+    /* Sample data
     std::vector<std::vector<int>>men = {  {3, 1, 2, 0},
                                           {1, 2, 0, 3},
                                           {3, 0, 2, 1},
@@ -154,8 +175,8 @@ int main() {
                                             {1, 2, 3, 0},
                                             {0, 1, 2, 3},
                                             {1, 3, 0, 2},
-    };
+    };*/
 
-    stableMarriage(women, men);
+    //stableMarriage(women, men);
     return 0;
 }
